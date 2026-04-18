@@ -1,24 +1,28 @@
 %%
 % 摘要信息
 % 本文档中前缀"c-"代表中文版字段, 前缀"e-"代表英文版字段
-% 摘要内容应概括地反映出本论文的主要内容，主要说明本论文的研究目的、内容、方法、成果和结论。要突出本论文的创造性成果或新见解，不要与引言相 混淆。语言力求精练、准确，以 300—500 字为宜。
-% 在摘要的下方另起一行，注明本文的关键词（3—5 个）。关键词是供检索用的主题词条，应采用能覆盖论文主要内容的通用技术词条(参照相应的技术术语 标准)。按词条的外延层次排列（外延大的排在前面）。摘要与关键词应在同一页。
-% modifier: 黄俊杰(huangjj27, 349373001dc@gmail.com)
-% update date: 2017-04-15
+% 中文摘要 300-500 字；关键词 3-5 个；中英文关键词最后一个不加标点。
+% 中英文摘要及其关键词各置一页内。
 %%
 
 \cabstract{
+    双手灵巧操作是具身智能中最具挑战性的问题之一，而从人类演示中学习为灵巧操作策略提供了重要先验。然而由于机械手与人手在形态与动力学上的差异，现有方法面临三个核心挑战：（一）以关节轨迹为目标的模仿学习将策略性能钉死在模仿上限，难以发现与机械手自身形态对齐的操作策略；（二）策略网络在训练早期能力有限，微小的动作偏差经 Markov 过程逐步复合放大，迅速将物体推离预期轨迹，导致 episode 频繁提前终止；（三）传统形态学重定向仅在关节空间最小化与人手的距离，忽略接触力学，生成的初始状态常伴随力闭合缺失、手物穿模、物体弹飞等物理不可行现象，使大量样本浪费在无意义的轨迹段上。
 
-    摘要应概括论文的主要信息，应具有独立性和自含性，即不阅读论文的全文，就能获得必要的信息。摘要内容一般应包括研究目的、内容、方法、成果和结论，要突出论文的创造性成果或新见解，不要与绪论相混淆。语言力求精练、准确，以300-500字为宜。关键词是供检索用的主题词条，应体现论文特色，具有语义性，在论文中有明确的出处，并应尽量采用《汉语主题词表》或各专业主题词表提供的规范词。关键词与摘要应在同一页，在摘要的下方另起一行注明，一般列3-5个，按词条的外延层次排列（外延大的排在前面）。
+    针对以上问题，本文提出一个面向双手灵巧操作的高效强化学习框架，包含三个核心组件：（一）基于课程学习的动态 PPO 与奖励退火机制，通过三阶段奖励动态加权实现从模仿到形态对齐探索的平滑过渡；（二）混合马尔可夫影子引擎，在训练早期对专家动作与策略动作进行凸组合并对物体施加可退火的支撑力，缓解复合误差；（三）物理可行重定向模块 PFAR，基于 BoDex 力闭合求解器、可行性掩码参考状态初始化以及残差修正头三件套，从初始状态层面消除重定向的物理不可行问题。
 
+    本文在 OakInk-V2 数据集上对 Inspire 五指机械手的单手与双手任务进行评估，主对比实验与消融实验表明本文方法显著降低了 reset 失败率、缩短了达到目标成功率的训练时间，并在成功率、位置误差、朝向误差等指标上优于 ManipTrans 等主流基线方法。
 }
-% 中文关键词(每个关键词之间用“，”分开,最后一个关键词不打标点符号。)
-\ckeywords{本科毕业论文，\LaTeX\ 模板，中山大学}
+
+% 中文关键词（每个关键词之间用“，”分开，最后一个关键词不打标点符号。）
+\ckeywords{双手灵巧操作，强化学习，课程学习，物理可行抓取，人类演示}
 
 \eabstract{
-    % 英文摘要及关键词内容应与中文摘要及关键词内容相同。中英文摘要及其关键词各置一页内。
-    The content of the English abstract is the same as the Chinese abstract, 250-400 content words are appropriate. Start another line below the abstract to indicate English keywords (Keywords 3-5).
-}
-% 英文文关键词(每个关键词之间用,分开, 最后一个关键词不打标点符号。)
-\ekeywords{undergraduate thesis, \LaTeX\ template, Sun Yat-Sen University}
+    Bimanual dexterous manipulation is one of the most challenging problems in embodied intelligence, where learning from human demonstrations provides valuable priors for the manipulation policy. However, due to morphological and dynamical discrepancies between robotic and human hands, existing methods face three core challenges: (i) joint-trajectory-oriented imitation learning caps policy performance at the imitation ceiling and fails to discover strategies aligned with the robot hand's own morphology; (ii) early-stage policies trigger compounding errors under the Markov decision process, pushing the object off the intended trajectory within a few steps and causing frequent premature episode termination; (iii) conventional morphological retargeting minimizes only joint-space distance to the human hand and ignores contact mechanics, producing physically infeasible initial states with force-closure failures, hand-object interpenetration, and object ejection, wasting a large fraction of samples on meaningless transitions.
 
+    To address these issues, we propose an efficient reinforcement learning framework for bimanual dexterous manipulation with three core components: (i) a curriculum-based Dynamic PPO with Reward Annealing that smoothly transitions the policy from imitation to morphology-aligned exploration via three-stage reward weighting; (ii) a Hybrid Markov Shadow Engine that convexly blends expert and policy actions and applies an annealed PD support force to the object during early training to alleviate compounding errors; (iii) a Physics-Feasibility-Aware Reset (PFAR) module built upon the BoDex force-closure solver, feasibility-masked reference state initialization, and a residual correction head, which eliminates infeasibility of retargeted initial states at their root.
+
+    We evaluate the framework on Inspire 5-finger unimanual and bimanual tasks from the OakInk-V2 dataset. Main comparisons and ablation studies show that our method significantly reduces the reset-failure rate, shortens the wall-clock to reach the target success rate, and outperforms representative baselines including ManipTrans on success rate, position error, and orientation error.
+}
+
+% 英文关键词（每个关键词之间用 , 分开，最后一个关键词不打标点符号。）
+\ekeywords{bimanual dexterous manipulation, reinforcement learning, curriculum learning, physics-feasible grasping, learning from human demonstrations}
